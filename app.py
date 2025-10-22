@@ -11,17 +11,21 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}"
+else:
+    # 🔹 Corrige prefijo para compatibilidad con psycopg3
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'dev')
 
+# ===== Inicialización de BD =====
 db.init_app(app)
 migrate = Migrate(app, db)
 
 print("🗄️ DATABASE_URL ->", app.config['SQLALCHEMY_DATABASE_URI'])
 
-# Importa modelos antes de crear tablas / sembrar
+# ===== Importar Modelos =====
 from models.vendedor import Vendedor
 from models.venta import Venta
 from models.regla import Regla
@@ -64,11 +68,12 @@ def seed_data():
     db.session.commit()
     print("✅ Datos iniciales sembrados.")
 
+# ===== Crear tablas y sembrar datos =====
 with app.app_context():
-    # Crea tablas según modelos (en SQLite y Postgres)
     db.create_all()
     seed_data()
 
+# ===== Registrar Blueprint =====
 from controllers.venta_controller import main_blueprint
 app.register_blueprint(main_blueprint)
 
