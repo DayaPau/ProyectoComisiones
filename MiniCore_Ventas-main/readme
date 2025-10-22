@@ -1,0 +1,109 @@
+# MiniCoreVendedores
+
+## Descripción
+
+**MiniCoreVendedores** es una aplicación web desarrollada con Flask y SQLAlchemy que permite gestionar y visualizar las comisiones de vendedores en función de sus ventas y reglas de comisión. El sistema permite filtrar ventas por rango de fechas y muestra un resumen de comisiones por vendedor de manera clara y visual.
+
+---
+
+## Características
+
+- Visualización de ventas y comisiones por vendedor.
+- Filtro de ventas por rango de fechas.
+- Cálculo automático de comisiones según reglas configurables.
+- Interfaz web moderna y responsiva.
+- Validación de fechas para evitar errores de usuario.
+- Estilos personalizados para una mejor experiencia visual.
+
+---
+
+## Estructura del Proyecto
+
+```
+MiniCoreVendedores/
+│
+├── app.py
+├── data.sql
+├── db.sqlite3
+├── controllers/
+│   └── venta_controller.py
+├── models/
+│   ├── vendedor.py
+│   ├── venta.py
+│   └── regla.py
+├── static/
+│   └── css/
+│       └── style.css
+├── templates/
+│   ├── base.html
+│   └── index.html
+└── utils/
+    └── database.py
+```
+
+---
+
+## Requisitos
+
+- Python 3.8 o superior
+- pip
+
+---
+
+## Instalación
+
+1. **Clona el repositorio o descarga el código fuente.**
+
+2. **Crea y activa un entorno virtual (opcional pero recomendado):**
+   ```sh
+   python -m venv venv
+   venv\Scripts\activate   # En Windows
+   ```
+
+3. **Instala las dependencias:**
+   ```sh
+   pip install -r requirements.txt
+   ```
+   Si no tienes `requirements.txt`, instala manualmente:
+   ```sh
+   pip install flask flask_sqlalchemy flask_migrate
+   ```
+
+4. **Crea la base de datos y carga los datos iniciales:**
+   ```sh
+   sqlite3 db.sqlite3 < data.sql
+   ```
+   > Asegúrate de ejecutar este comando en la raíz del proyecto, donde está `db.sqlite3`.
+
+---
+
+## Ejecución
+
+1. **Inicia la aplicación:**
+   ```sh
+   python app.py
+   ```
+
+2. **Abre tu navegador y accede a:**
+   ```
+   http://127.0.0.1:5000/
+   ```
+
+---
+
+## Uso
+
+- Selecciona un rango de fechas y haz clic en "Buscar" para filtrar las ventas.
+- La tabla muestra el total de ventas, el porcentaje de comisión y la comisión calculada para cada vendedor.
+- La columna de comisión se resalta en rojo para mayor visibilidad.
+- El sistema valida que la fecha de fin no sea menor a la fecha de inicio.
+
+---
+
+## Personalización
+
+- Puedes modificar las reglas de comisión editando el archivo `data.sql` y recargando la base de datos.
+- Los estilos pueden personalizarse en `static/css/style.css`.
+
+
+---
